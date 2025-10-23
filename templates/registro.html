@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Alitas El Comelón</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .contenedor {
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            background-color: #ff7b00;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #e46b00;
+        }
+        a {
+            color: #ff7b00;
+            text-decoration: none;
+        }
+        .alert {
+            color: red;
+            margin-bottom: 10px;
+        }
+        #campo_tarjeta {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h2>Crear Cuenta</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+        <form method="POST">
+            <input type="text" name="nombre" placeholder="Nombre" required>
+            <input type="text" name="apellido" placeholder="Apellido" required>
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="text" name="telefono" placeholder="Teléfono" required>
+            <input type="text" name="direccion" placeholder="Dirección" required>
+
+            <label for="metodo_pago">Método de pago:</label>
+            <select name="metodo_pago" id="metodo_pago" required>
+                <option value="">Seleccione un método</option>
+                <option value="tarjeta">Tarjeta</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="mixto">Mixto</option>
+            </select>
+
+            <div id="campo_tarjeta">
+                <input type="text" name="numero_tarjeta" maxlength="16" placeholder="Número de tarjeta (16 dígitos)">
+            </div>
+
+            <button type="submit">Registrarme</button>
+        </form>
+        <p>¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a></p>
+    </div>
+
+    <script>
+        
+        const selectMetodo = document.getElementById('metodo_pago');
+        const campoTarjeta = document.getElementById('campo_tarjeta');
+
+        selectMetodo.addEventListener('change', function() {
+            if (this.value === 'tarjeta') {
+                campoTarjeta.style.display = 'block';
+            } else {
+                campoTarjeta.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
